@@ -1,0 +1,31 @@
+<nav class="navbar">
+  <div class="logo">
+    <a routerLink="/">ShopZone</a>
+  </div>
+
+  <div class="links">
+    <a routerLink="/" routerLinkActive="active">Home</a>
+
+    <a routerLink="/products" routerLinkActive="active"> Products </a>
+
+    <a routerLink="/cart" routerLinkActive="active"> 🛒 Cart </a>
+
+    <a routerLink="/wishlist" routerLinkActive="active"> ❤️ Wishlist </a>
+  </div>
+
+  <div class="auth">
+    <ng-container *ngIf="!isLoggedIn()">
+      <a routerLink="/login" class="login"> Login </a>
+
+      <a routerLink="/register" class="register"> Register </a>
+    </ng-container>
+
+    <ng-container *ngIf="isLoggedIn()">
+      <a routerLink="/profile"> 👤 Profile </a>
+
+      <a *ngIf="isAdmin()" routerLink="/admin-dashboard"> Dashboard </a>
+
+      <button (click)="logout()">Logout</button>
+    </ng-container>
+  </div>
+</nav>

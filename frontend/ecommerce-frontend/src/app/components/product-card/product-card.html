@@ -1,0 +1,25 @@
+<div class="card">
+  <img
+    [src]="product.images.length ? imageUrl(product.images[0]) : 'https://placehold.co/300x250'"
+    alt="product"
+  />
+
+  <div class="content">
+    <h3>{{ product.title }}</h3>
+
+    <p>{{ product.description }}</p>
+
+    <p class="brand">
+      {{ product.brandId.name }}
+    </p>
+
+    <div class="price">
+      <span class="new"> {{ product.finalPrice }} EGP </span>
+
+      <span class="old"> {{ product.price }} EGP </span>
+    </div>
+
+    <button>Add To Cart</button>
+  </div>
+</div>
+    
