@@ -1,0 +1,65 @@
+.wishlist-container {
+  width: 90%;
+  margin: 40px auto;
+}
+
+.wishlist-container h2 {
+  margin-bottom: 30px;
+}
+
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 25px;
+}
+
+.card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  background: #fff;
+}
+
+.card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.content {
+  padding: 20px;
+}
+
+.content h3 {
+  margin-bottom: 10px;
+}
+
+.content p {
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.content h4 {
+  color: #28a745;
+  margin-bottom: 20px;
+}
+
+.remove {
+  width: 100%;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  background: crimson;
+  color: #fff;
+  cursor: pointer;
+}
+
+.remove:hover {
+  background: #b00020;
+}
+
+.empty {
+  text-align: center;
+  margin-top: 80px;
+  color: #777;
+}

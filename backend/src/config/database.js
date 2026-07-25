@@ -1,11 +1,9 @@
 import mongoose from "mongoose";
-
 export async function connectDB() {
   try {
-    await mongoose.connect("mongodb://localhost:27017/Ecommerce_MM");
-
+    await mongoose.connect(process.env.MONGO_LOCAL_URI);
     console.log("DB connected");
   } catch (error) {
-    console.error("Error connecting to MongoDB:", error.message);
+    console.error("Error connecting to MongoDB:", error);
   }
 }

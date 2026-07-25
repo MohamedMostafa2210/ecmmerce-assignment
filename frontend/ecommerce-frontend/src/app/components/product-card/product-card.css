@@ -1,58 +1,90 @@
 .card {
+  width: 320px;
   background: #fff;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   transition: 0.3s;
 }
 
 .card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
 }
 
-img {
+.card img {
   width: 100%;
-  height: 240px;
+  height: 220px;
   object-fit: cover;
 }
 
 .content {
-  padding: 15px;
+  padding: 18px;
 }
 
-h3 {
-  margin: 0 0 10px;
+.content h3 {
+  margin-bottom: 10px;
+  font-size: 22px;
+}
+
+.desc {
+  color: #666;
+  font-size: 15px;
+  margin-bottom: 15px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .brand {
-  color: #666;
-  font-size: 14px;
+  color: #2196f3;
+  font-weight: bold;
+  margin-bottom: 15px;
 }
 
 .price {
-  display: flex;
-  gap: 10px;
-  margin: 15px 0;
-  align-items: center;
+  margin-bottom: 20px;
 }
 
 .new {
-  color: #2196f3;
+  color: #27ae60;
   font-size: 22px;
   font-weight: bold;
 }
 
 .old {
+  margin-left: 10px;
+  color: gray;
   text-decoration: line-through;
-  color: #999;
 }
 
 button {
   width: 100%;
   border: none;
-  background: #2196f3;
-  color: #fff;
-  padding: 10px;
-  border-radius: 8px;
+  padding: 13px;
+  border-radius: 10px;
   cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.cart-btn {
+  background: #1e88e5;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.cart-btn:hover {
+  background: #1565c0;
+}
+
+.wish-btn {
+  background: #ff4081;
+  color: white;
+}
+
+.wish-btn:hover {
+  background: #e91e63;
 }

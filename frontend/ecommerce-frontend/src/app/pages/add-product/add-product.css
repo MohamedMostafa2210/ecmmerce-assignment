@@ -1,0 +1,36 @@
+.container {
+  width: 500px;
+
+  margin: 40px auto;
+}
+
+form {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 15px;
+}
+
+input,
+textarea {
+  padding: 12px;
+
+  border: 1px solid #ddd;
+
+  border-radius: 8px;
+}
+
+button {
+  padding: 12px;
+
+  background: #0d6efd;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+}

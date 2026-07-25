@@ -1,1 +1,43 @@
-<p>admin-dashboard works!</p>
+<div class="dashboard">
+  <div class="top">
+    <h2>Admin Dashboard</h2>
+
+    <button (click)="addProduct()">+ Add Product</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (product of products; track product._id) {
+        <tr>
+          <td>
+            <img
+              [src]="product.images.length ? image(product.images[0]) : 'https://placehold.co/80'"
+            />
+          </td>
+
+          <td>{{ product.title }}</td>
+
+          <td>{{ product.finalPrice }} EGP</td>
+
+          <td>{{ product.stock }}</td>
+
+          <td>
+            <button class="edit" (click)="editProduct(product._id)">Edit</button>
+
+            <button class="delete" (click)="deleteProduct(product._id)">Delete</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

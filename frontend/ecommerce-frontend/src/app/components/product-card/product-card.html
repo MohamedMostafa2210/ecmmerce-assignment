@@ -1,16 +1,13 @@
 <div class="card">
   <img
     [src]="product.images.length ? imageUrl(product.images[0]) : 'https://placehold.co/300x250'"
-    alt="product"
   />
 
   <div class="content">
     <h3>{{ product.title }}</h3>
 
-    <p>{{ product.description }}</p>
-
-    <p class="brand">
-      {{ product.brandId.name }}
+    <p class="desc">
+      {{ product.description }}
     </p>
 
     <div class="price">
@@ -19,7 +16,14 @@
       <span class="old"> {{ product.price }} EGP </span>
     </div>
 
-    <button>Add To Cart</button>
+    <button class="cart-btn" (click)="addToCart()">🛒 Add To Cart</button>
+
+    <button class="wish-btn" (click)="addToWishlist()">❤️ Add To Wishlist</button>
+
+    <div *ngIf="isAdmin()" class="admin-actions">
+      <button class="edit-btn" [routerLink]="['/edit-product', product._id]">✏ Edit</button>
+
+      <button class="delete-btn" (click)="deleteProduct()">🗑 Delete</button>
+    </div>
   </div>
 </div>
-    

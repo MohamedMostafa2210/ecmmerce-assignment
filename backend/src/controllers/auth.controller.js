@@ -59,7 +59,7 @@ export const login = asyncHandler(async (req, res) => {
   return successResponse({
     res,
     statusCode: 200,
-    data: { access_token, refresh_token },
+    data: { access_token, refresh_token, user },
     message: "login Successfully",
   });
 });

@@ -1,1 +1,33 @@
-<p>wishlist works!</p>
+<div class="wishlist-container">
+  <h2>My Wishlist ❤️</h2>
+
+  @if (wishlist?.products?.length) {
+    <div class="wishlist-grid">
+      @for (product of wishlist.products; track product._id) {
+        <div class="card">
+          <img
+            [src]="
+              product.images?.length
+                ? 'http://localhost:3001/' + product.images[0]
+                : 'https://placehold.co/300x250'
+            "
+          />
+
+          <div class="content">
+            <h3>{{ product.title }}</h3>
+
+            <p>{{ product.description }}</p>
+
+            <h4>{{ product.finalPrice }} EGP</h4>
+
+            <button class="remove" (click)="remove(product)">Remove</button>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="empty">
+      <h2>Your Wishlist is Empty ❤️</h2>
+    </div>
+  }
+</div>

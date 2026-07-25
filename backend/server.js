@@ -12,11 +12,18 @@ import dashboardRouter from "./src/routes/Dashboard.routes.js";
 import { connectDB } from "./src/config/database.js";
 import { config } from "dotenv";
 import path from "path";
-
-config({});
+import cors from "cors";
+config({
+  path: path.resolve(".env"),
+});
 
 const app = express();
-
+app.use(
+  cors({
+    origin: "http://localhost:4200",
+    credentials: true,
+  }),
+);
 app.use("/uploads", express.static("uploads"));
 app.use(express.json());
 connectDB();

@@ -1,1 +1,48 @@
-<p>add-product works!</p>
+<div class="container">
+  <h2>Add Product</h2>
+
+  <form (ngSubmit)="createProduct()">
+    <input type="text" placeholder="Title" [(ngModel)]="product.title" name="title" />
+
+    <textarea
+      placeholder="Description"
+      [(ngModel)]="product.description"
+      name="description"
+    ></textarea>
+
+    <input type="number" placeholder="Price" [(ngModel)]="product.price" name="price" />
+
+    <input type="number" placeholder="Discount" [(ngModel)]="product.discount" name="discount" />
+
+    <input type="number" placeholder="Stock" [(ngModel)]="product.stock" name="stock" />
+
+    <input type="text" placeholder="Brand Id" [(ngModel)]="product.brandId" name="brandId" />
+
+    <input
+      type="text"
+      placeholder="Category Id"
+      [(ngModel)]="product.categoryId"
+      name="categoryId"
+    />
+
+    <input
+      type="text"
+      placeholder="SubCategory Id"
+      [(ngModel)]="product.subCategoryId"
+      name="subCategoryId"
+    />
+
+    <input
+      type="text"
+      placeholder="Colors (Black,Blue)"
+      [(ngModel)]="product.colors"
+      name="colors"
+    />
+
+    <input type="text" placeholder="Sizes (128GB,256GB)" [(ngModel)]="product.sizes" name="sizes" />
+
+    <input type="file" (change)="onFileChange($event)" />
+
+    <button>Add Product</button>
+  </form>
+</div>

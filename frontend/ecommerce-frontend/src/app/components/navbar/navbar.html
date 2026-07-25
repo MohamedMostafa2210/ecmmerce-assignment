@@ -16,8 +16,7 @@
   <div class="auth">
     <ng-container *ngIf="!isLoggedIn()">
       <a routerLink="/login" class="login"> Login </a>
-
-      <a routerLink="/register" class="register"> Register </a>
+      <a routerLink="/signup" class="register">Sign Up</a>
     </ng-container>
 
     <ng-container *ngIf="isLoggedIn()">

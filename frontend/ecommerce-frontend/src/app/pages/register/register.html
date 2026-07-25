@@ -1,1 +1,57 @@
-<p>register works!</p>
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Create Account</h2>
+
+    <p class="subtitle">Join ShopZone today</p>
+
+    <form (ngSubmit)="signup()">
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" name="firstname" [(ngModel)]="signupData.firstname" required />
+      </div>
+
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" name="lastname" [(ngModel)]="signupData.lastname" required />
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" [(ngModel)]="signupData.email" required />
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" [(ngModel)]="signupData.password" required />
+      </div>
+
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="text" name="phoneNumber" [(ngModel)]="signupData.phoneNumber" />
+      </div>
+
+      <div class="form-group">
+        <label>Age</label>
+        <input type="number" name="age" [(ngModel)]="signupData.age" />
+      </div>
+
+      <div class="form-group">
+        <label>Gender</label>
+
+        <select name="gender" [(ngModel)]="signupData.gender">
+          <option value="Male">Male</option>
+
+          <option value="Female">Female</option>
+        </select>
+      </div>
+
+      <button type="submit">Sign Up</button>
+
+      <p class="link">
+        Already have an account?
+
+        <a routerLink="/login"> Login </a>
+      </p>
+    </form>
+  </div>
+</div>

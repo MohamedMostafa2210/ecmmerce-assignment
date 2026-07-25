@@ -6,11 +6,9 @@ import { Injectable } from '@angular/core';
 })
 export class Auth {
   private apiUrl = 'http://localhost:3001/auth';
-  constructor(private http: HttpClient,
-    private auth: Auth,
-  ) {}
-  register(data: any) {
-    return this.http.post(`${this.apiUrl}/register`, data);
+  constructor(private http: HttpClient) {}
+  signup(data: any) {
+    return this.http.post(`${this.apiUrl}/signup`, data);
   }
   login(data: any) {
     return this.http.post(`${this.apiUrl}/login`, data);
@@ -22,8 +20,7 @@ export class Auth {
     return localStorage.getItem('token');
   }
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.clear();
   }
   isLogIn() {
     return !!localStorage.getItem('token');
