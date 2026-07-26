@@ -1,48 +1,100 @@
 <div class="container">
-  <h2>Add Product</h2>
+  <div class="card">
+    <h2>Add New Product</h2>
 
-  <form (ngSubmit)="createProduct()">
-    <input type="text" placeholder="Title" [(ngModel)]="product.title" name="title" />
+    <form (ngSubmit)="createProduct()">
+      <label>Product Title</label>
+      <input
+        type="text"
+        [(ngModel)]="product.title"
+        name="title"
+        placeholder="Example: iPhone 16 Pro"
+        required
+      />
 
-    <textarea
-      placeholder="Description"
-      [(ngModel)]="product.description"
-      name="description"
-    ></textarea>
+      <label>Description</label>
+      <textarea
+        [(ngModel)]="product.description"
+        name="description"
+        rows="3"
+        placeholder="Example: Apple flagship smartphone with A18 Pro chip"
+        required
+      >
+      </textarea>
 
-    <input type="number" placeholder="Price" [(ngModel)]="product.price" name="price" />
+      <label>Price</label>
+      <input
+        type="number"
+        [(ngModel)]="product.price"
+        name="price"
+        placeholder="Example: 65000"
+        required
+      />
 
-    <input type="number" placeholder="Discount" [(ngModel)]="product.discount" name="discount" />
+      <label>Discount (%)</label>
+      <input
+        type="number"
+        [(ngModel)]="product.discount"
+        name="discount"
+        placeholder="Example: 10"
+      />
 
-    <input type="number" placeholder="Stock" [(ngModel)]="product.stock" name="stock" />
+      <label>Stock Quantity</label>
+      <input type="number" [(ngModel)]="product.stock" name="stock" placeholder="Example: 25" />
 
-    <input type="text" placeholder="Brand Id" [(ngModel)]="product.brandId" name="brandId" />
+      <div class="label-header">
+        <label>Brand</label>
+        <button type="button" class="btn-add-quick" (click)="addNewBrand()">+ Add Brand</button>
+      </div>
+      <select [(ngModel)]="product.brandId" name="brandId">
+        <option value="">-- Select Brand --</option>
+        @for (b of brands; track b._id) {
+          <option [value]="b._id">{{ b.name }}</option>
+        }
+      </select>
 
-    <input
-      type="text"
-      placeholder="Category Id"
-      [(ngModel)]="product.categoryId"
-      name="categoryId"
-    />
+      <div class="label-header">
+        <label>Category</label>
+        <button type="button" class="btn-add-quick" (click)="addNewCategory()">+ Add Category</button>
+      </div>
+      <select [(ngModel)]="product.categoryId" name="categoryId">
+        <option value="">-- Select Category --</option>
+        @for (c of categories; track c._id) {
+          <option [value]="c._id">{{ c.name }}</option>
+        }
+      </select>
 
-    <input
-      type="text"
-      placeholder="SubCategory Id"
-      [(ngModel)]="product.subCategoryId"
-      name="subCategoryId"
-    />
+      <div class="label-header">
+        <label>SubCategory</label>
+        <button type="button" class="btn-add-quick" (click)="addNewSubCategory()">+ Add SubCategory</button>
+      </div>
+      <select [(ngModel)]="product.subCategoryId" name="subCategoryId">
+        <option value="">-- Select SubCategory --</option>
+        @for (sc of subCategories; track sc._id) {
+          <option [value]="sc._id">{{ sc.name }}</option>
+        }
+      </select>
 
-    <input
-      type="text"
-      placeholder="Colors (Black,Blue)"
-      [(ngModel)]="product.colors"
-      name="colors"
-    />
+      <label>Colors</label>
+      <input
+        type="text"
+        [(ngModel)]="product.colors"
+        name="colors"
+        placeholder="Example: Black,Blue,Silver"
+      />
 
-    <input type="text" placeholder="Sizes (128GB,256GB)" [(ngModel)]="product.sizes" name="sizes" />
+      <label>Sizes</label>
+      <input
+        type="text"
+        [(ngModel)]="product.sizes"
+        name="sizes"
+        placeholder="Example: 128GB,256GB"
+      />
 
-    <input type="file" (change)="onFileChange($event)" />
+      <label>Product Image</label>
+      <input type="file" (change)="onFileChange($event)" />
 
-    <button>Add Product</button>
-  </form>
+      <button type="submit">Add Product</button>
+    </form>
+  </div>
 </div>

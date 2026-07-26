@@ -1,1 +1,4 @@
-export interface Brand {}
+export interface Brand {
+  _id: string;
+  name: string;
+}

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Auth } from './auth';
 
 @Injectable({
   providedIn: 'root',
@@ -7,20 +8,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class CartService {
   api = 'http://localhost:3001/cart';
 
-  constructor(private http: HttpClient) {}
-
-  private getHeaders() {
-    const token = localStorage.getItem('token');
-
-    return {
-      headers: new HttpHeaders({
-        Authorization: `System ${token}`,
-      }),
-    };
-  }
+  constructor(
+    private http: HttpClient,
+    private auth: Auth,
+  ) {}
 
   getCart() {
-    return this.http.get(`${this.api}/cart`, this.getHeaders());
+    return this.http.get(`${this.api}/cart`, this.auth.getAuthHeaders());
   }
 
   addToCart(productId: string) {
@@ -30,7 +24,7 @@ export class CartService {
         productId,
         quantity: 1,
       },
-      this.getHeaders(),
+      this.auth.getAuthHeaders(),
     );
   }
 
@@ -41,11 +35,14 @@ export class CartService {
         productId,
         quantity,
       },
-      this.getHeaders(),
+      this.auth.getAuthHeaders(),
     );
   }
 
   removeFromCart(productId: string) {
-    return this.http.delete(`${this.api}/cart/${productId}`, this.getHeaders());
+    return this.http.delete(`${this.api}/cart/${productId}`, this.auth.getAuthHeaders());
+  }
+  clearCart() {
+    return this.http.delete(`${this.api}/cart`, this.auth.getAuthHeaders());
   }
 }

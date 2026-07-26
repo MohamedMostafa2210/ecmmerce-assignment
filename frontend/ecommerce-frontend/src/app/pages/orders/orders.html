@@ -1,0 +1,64 @@
+<div class="orders-container">
+  <div class="header-row">
+    <h2>📦 {{ isAdmin ? 'All Customer Orders (Admin)' : 'My Orders' }}</h2>
+  </div>
+
+  @if (loading) {
+    <p class="status-msg">Loading orders...</p>
+  } @else if (error) {
+    <p class="status-msg error">{{ error }}</p>
+  } @else if (!orders.length) {
+    <div class="empty-orders">
+      <h3>No orders found</h3>
+      <p>Looks like there are no placed orders yet.</p>
+    </div>
+  } @else {
+    <div class="orders-list">
+      @for (order of orders; track order._id) {
+        <div class="order-card">
+          <div class="order-header">
+            <div>
+              <span class="order-id">Order #{{ order._id }}</span>
+              <span class="order-date" *ngIf="order.createdAt">{{ order.createdAt | date: 'medium' }}</span>
+            </div>
+            <span class="status-badge" [ngClass]="getStatusBadgeClass(order.status)">
+              {{ order.status }}
+            </span>
+          </div>
+
+          <div class="order-details">
+            <p><strong>Payment Method:</strong> {{ order.paymentMethod || 'Cash' }}</p>
+            <p><strong>Address ID:</strong> {{ order.addressId }}</p>
+            <p class="price-highlight">
+              <strong>Total Amount:</strong> {{ order.finalPrice || order.totalPrice }} EGP
+            </p>
+          </div>
+
+          <div class="order-actions">
+            <!-- User Action: Cancel if pending -->
+            <button
+              *ngIf="!isAdmin && order.status === 'placed' || order.status === 'pending'"
+              class="btn btn-cancel"
+              (click)="cancelOrder(order._id)"
+            >
+              Cancel Order
+            </button>
+
+            <!-- Admin Action: Change Status -->
+            <div *ngIf="isAdmin" class="admin-status-select">
+              <label>Update Status: </label>
+              <select [value]="order.status" (change)="updateStatus(order._id, $event)">
+                <option value="pending">pending</option>
+                <option value="placed">placed</option>
+                <option value="on way">on way</option>
+                <option value="shipped">shipped</option>
+                <option value="delivered">delivered</option>
+                <option value="cancelled">cancelled</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

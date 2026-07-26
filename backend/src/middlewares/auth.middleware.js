@@ -5,8 +5,6 @@ export const auth = (accessRoles = [], tokenType = tokenTypeEnum.access) => {
   return asyncHandler(async (req, res, next) => {
     const { authorization } = req.headers;
 
-    console.log("Authorization:", authorization);
-
     if (!authorization) {
       return errResponse({
         res,
@@ -15,8 +13,11 @@ export const auth = (accessRoles = [], tokenType = tokenTypeEnum.access) => {
       });
     }
 
+    console.log("Authorization:", authorization);
+
     const [bearerKey, token] = authorization.split(" ");
 
+    console.log("BearerKey:", bearerKey);
     let signature;
     if (tokenType == tokenTypeEnum.access) {
       const { access_token_Signature } = getSignature(bearerKey);
@@ -45,6 +46,7 @@ export const auth = (accessRoles = [], tokenType = tokenTypeEnum.access) => {
       token,
       Signature: signature,
     });
+    console.log("Authenticated User:", user);
     if (req.user?.changedCredentialsAt >= Date.now() * 1000) {
       return errResponse({
         res,

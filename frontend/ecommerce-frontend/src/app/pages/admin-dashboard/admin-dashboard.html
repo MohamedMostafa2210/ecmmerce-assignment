@@ -1,9 +1,56 @@
 <div class="dashboard">
-  <div class="top">
-    <h2>Admin Dashboard</h2>
-
-    <button (click)="addProduct()">+ Add Product</button>
+  <div class="header-section">
+    <h2>⚡ Admin Dashboard</h2>
+    <div class="header-actions">
+      <a routerLink="/add-product" class="btn btn-success">+ Add New Product</a>
+      <a routerLink="/orders" class="btn btn-primary">📦 Manage Customer Orders</a>
+    </div>
   </div>
+
+  <!-- Statistics Cards -->
+  @if (stats) {
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-info">
+          <h3>{{ stats.users || 0 }}</h3>
+          <p>Registered Users</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🛍️</div>
+        <div class="stat-info">
+          <h3>{{ stats.orders || 0 }}</h3>
+          <p>Total Orders</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">📦</div>
+        <div class="stat-info">
+          <h3>{{ stats.products || 0 }}</h3>
+          <p>Active Products</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🏷️</div>
+        <div class="stat-info">
+          <h3>{{ stats.categories || 0 }}</h3>
+          <p>Categories</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">✨</div>
+        <div class="stat-info">
+          <h3>{{ stats.brands || 0 }}</h3>
+          <p>Brands</p>
+        </div>
+      </div>
+    </div>
+  }
 
   <table>
     <thead>

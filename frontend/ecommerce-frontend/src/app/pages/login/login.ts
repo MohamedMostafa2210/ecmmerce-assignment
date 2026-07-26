@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Auth } from '../../services/auth';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +14,10 @@ export class Login {
   email = '';
   password = '';
 
-  constructor(private auth: Auth) {}
+  constructor(
+    private auth: Auth,
+    private router: Router,
+  ) {}
 
   login() {
     const data = {
@@ -24,12 +27,11 @@ export class Login {
 
     this.auth.login(data).subscribe({
       next: (res: any) => {
-        console.log(res);
-
         this.auth.saveToken(res.data.access_token);
         this.auth.saveUser(res.data.user);
 
         alert('Login successfully');
+        this.router.navigate(['/products']);
       },
       error: (err) => {
         console.log(err);

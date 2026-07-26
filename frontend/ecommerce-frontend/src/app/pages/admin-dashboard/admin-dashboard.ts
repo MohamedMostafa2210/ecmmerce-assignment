@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ProductService } from '../../services/product';
+import { DashboardService } from '../../services/dashboard';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -12,14 +13,30 @@ import { ProductService } from '../../services/product';
 })
 export class AdminDashboard implements OnInit {
   products: any[] = [];
+  stats: any = null;
+  loadingStats = true;
 
   constructor(
     private productService: ProductService,
+    private dashboardService: DashboardService,
     private router: Router,
   ) {}
 
   ngOnInit(): void {
+    this.loadStats();
     this.loadProducts();
+  }
+
+  loadStats() {
+    this.dashboardService.getDashboardStats().subscribe({
+      next: (res: any) => {
+        this.stats = res.data;
+        this.loadingStats = false;
+      },
+      error: () => {
+        this.loadingStats = false;
+      },
+    });
   }
 
   loadProducts() {

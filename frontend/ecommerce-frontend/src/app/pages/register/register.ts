@@ -34,7 +34,7 @@ export class Register {
       },
       error: (err) => {
         console.log(err);
-        alert(err.error.massage);
+        alert(err.error?.massage || 'Signup failed');
       },
     });
   }

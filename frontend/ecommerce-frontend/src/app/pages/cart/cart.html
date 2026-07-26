@@ -40,6 +40,10 @@
     <div class="total">
       <h2>Total: {{ getTotal() }} EGP</h2>
     </div>
+    <div class="cart-footer-actions">
+      <button class="btn btn-danger" (click)="clearCart()">Clear Cart</button>
+      <a routerLink="/checkout" class="btn btn-success checkout-btn">Proceed to Checkout 💳</a>
+    </div>
   } @else {
     <div class="empty">
       <h2>Your Cart is Empty 🛒</h2>

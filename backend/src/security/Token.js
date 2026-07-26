@@ -16,10 +16,12 @@ export const decodeToken = ({
   Token,
   Signature = process.env.USER_ACCESS_TOKEN_SIGNATURE,
 } = {}) => {
+  console.log(Signature);
   return jwt.verify(Token, Signature);
 };
 
 export const getSignature = (role = roleEnum.user) => {
+  console.log("ROLE/BEARER =", role);
   const Signatures = {
     access_token_Signature: undefined,
     refresh_token_Signature: undefined,

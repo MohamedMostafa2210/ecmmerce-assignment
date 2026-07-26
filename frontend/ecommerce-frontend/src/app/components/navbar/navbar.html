@@ -1,6 +1,6 @@
 <nav class="navbar">
   <div class="logo">
-    <a routerLink="/">ShopZone</a>
+    <a routerLink="/">KafrDiana</a>
   </div>
 
   <div class="links">
@@ -11,6 +11,8 @@
     <a routerLink="/cart" routerLinkActive="active"> 🛒 Cart </a>
 
     <a routerLink="/wishlist" routerLinkActive="active"> ❤️ Wishlist </a>
+
+    <a *ngIf="isLoggedIn()" routerLink="/orders" routerLinkActive="active"> 📦 Orders </a>
   </div>
 
   <div class="auth">

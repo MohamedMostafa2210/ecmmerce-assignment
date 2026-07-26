@@ -1,0 +1,166 @@
+.orders-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.header-row {
+  margin-bottom: 24px;
+}
+
+.header-row h2 {
+  font-size: 28px;
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+.status-msg {
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+  padding: 40px 0;
+}
+
+.status-msg.error {
+  color: #dc3545;
+}
+
+.empty-orders {
+  text-align: center;
+  padding: 60px 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border: 1px dashed #ced4da;
+}
+
+.empty-orders h3 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.empty-orders p {
+  color: #6c757d;
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.order-card {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.order-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1f3f5;
+  margin-bottom: 12px;
+}
+
+.order-id {
+  font-weight: 700;
+  font-size: 16px;
+  color: #212529;
+  margin-right: 12px;
+}
+
+.order-date {
+  font-size: 13px;
+  color: #868e96;
+}
+
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.badge-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.badge-shipped {
+  background: #cce5ff;
+  color: #004085;
+}
+
+.badge-delivered {
+  background: #d4edda;
+  color: #155724;
+}
+
+.badge-cancelled {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.badge-secondary {
+  background: #e2e3e5;
+  color: #383d41;
+}
+
+.order-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #495057;
+}
+
+.price-highlight {
+  font-size: 16px;
+  color: #2b8a3e;
+}
+
+.order-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px dashed #f1f3f5;
+}
+
+.btn-cancel {
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background: #c82333;
+}
+
+.admin-status-select {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-status-select select {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+  font-weight: 600;
+}

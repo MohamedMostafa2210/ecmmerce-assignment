@@ -32,6 +32,24 @@ export const getCart = asyncHandler(async (req, res) => {
 
 export const addToCart = asyncHandler(async (req, res) => {
   const { productId, quantity = 1 } = req.body;
+  console.log("USER:", req.user);
+  console.log("BODY:", req.body);
+
+  const product = await DBservice.findOne({
+    model: productModel,
+    filter: { _id: productId },
+  });
+
+  console.log("PRODUCT:", product);
+
+  if (!product) {
+    return errResponse({
+      res,
+      statusCode: 404,
+      massage: "Product not found",
+    });
+  }
+
   let cart = await DBservice.findOne({
     model: cartModel,
     filter: { userId: req.user._id },
@@ -40,28 +58,41 @@ export const addToCart = asyncHandler(async (req, res) => {
   if (!cart) {
     cart = await DBservice.createOne({
       model: cartModel,
-      data: { userId: req.user._id, products: [{ productId, quantity }] },
+      data: {
+        userId: req.user._id,
+        products: [{ productId, quantity }],
+      },
     });
   } else {
-    const existingItem = cart.products.find(
-      (item) => item.productId.toString() === productId,
+    const item = cart.products.find(
+      (p) => p.productId && p.productId.toString() === productId,
     );
-    if (existingItem) {
-      existingItem.quantity += Number(quantity);
+
+    if (item) {
+      item.quantity += Number(quantity);
     } else {
-      cart.products.push({ productId, quantity });
+      cart.products.push({
+        productId,
+        quantity,
+      });
     }
+
     await cart.save();
   }
+
+  const updatedCart = await DBservice.findOne({
+    model: cartModel,
+    filter: { userId: req.user._id },
+    populate: ["products.productId"],
+  });
 
   return successResponse({
     res,
     statusCode: 200,
-    data: cart,
+    data: updatedCart,
     message: "Product added to cart",
   });
 });
-
 export const updateCart = asyncHandler(async (req, res) => {
   const { productId, quantity } = req.body;
   const cart = await DBservice.findOne({
@@ -108,5 +139,28 @@ export const removeFromCart = asyncHandler(async (req, res) => {
     statusCode: 200,
     data: cart,
     message: "Product removed from cart",
+  });
+});
+
+export const clearCart = asyncHandler(async (req, res) => {
+  await DBservice.updateOne({
+    model: cartModel,
+    filter: { userId: req.user._id },
+    data: {
+      products: [],
+    },
+  });
+
+  const updatedCart = await DBservice.findOne({
+    model: cartModel,
+    filter: { userId: req.user._id },
+    populate: ["products.productId"],
+  });
+
+  return successResponse({
+    res,
+    statusCode: 200,
+    data: updatedCart,
+    message: "Cart cleared successfully",
   });
 });

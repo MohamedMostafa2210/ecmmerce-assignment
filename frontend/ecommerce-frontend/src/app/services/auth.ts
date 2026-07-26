@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -7,6 +7,19 @@ import { Injectable } from '@angular/core';
 export class Auth {
   private apiUrl = 'http://localhost:3001/auth';
   constructor(private http: HttpClient) {}
+
+  getBearerKey(): string {
+    return this.isAdmin() ? 'System' : 'Bearer';
+  }
+  getAuthHeaders() {
+    const token = this.getToken();
+
+    return {
+      headers: new HttpHeaders({
+        Authorization: `${this.getBearerKey()} ${token}`,
+      }),
+    };
+  }
   signup(data: any) {
     return this.http.post(`${this.apiUrl}/signup`, data);
   }

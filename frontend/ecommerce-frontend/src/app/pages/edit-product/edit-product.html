@@ -1,1 +1,68 @@
-<p>edit-product works!</p>
+<div class="container">
+  <a routerLink="/admin-dashboard" class="back-link">← Back to Dashboard</a>
+
+  @if (loading) {
+    <p class="status">Loading product...</p>
+  } @else {
+    <h2>Edit Product</h2>
+
+    <form (ngSubmit)="updateProduct()">
+      <input type="text" placeholder="Title" [(ngModel)]="product.title" name="title" required />
+
+      <textarea
+        placeholder="Description"
+        [(ngModel)]="product.description"
+        name="description"
+        required
+      ></textarea>
+
+      <input type="number" placeholder="Price" [(ngModel)]="product.price" name="price" required />
+
+      <input
+        type="number"
+        placeholder="Discount"
+        [(ngModel)]="product.discount"
+        name="discount"
+      />
+
+      <input type="number" placeholder="Stock" [(ngModel)]="product.stock" name="stock" required />
+
+      <select [(ngModel)]="product.brandId" name="brandId">
+        <option value="">-- Select Brand --</option>
+        @for (b of brands; track b._id) {
+          <option [value]="b._id">{{ b.name }}</option>
+        }
+      </select>
+
+      <select [(ngModel)]="product.categoryId" name="categoryId">
+        <option value="">-- Select Category --</option>
+        @for (c of categories; track c._id) {
+          <option [value]="c._id">{{ c.name }}</option>
+        }
+      </select>
+
+      <select [(ngModel)]="product.subCategoryId" name="subCategoryId">
+        <option value="">-- Select SubCategory --</option>
+        @for (sc of subCategories; track sc._id) {
+          <option [value]="sc._id">{{ sc.name }}</option>
+        }
+      </select>
+
+      <input
+        type="text"
+        placeholder="Colors (Black,Blue)"
+        [(ngModel)]="product.colors"
+        name="colors"
+      />
+
+      <input
+        type="text"
+        placeholder="Sizes (128GB,256GB)"
+        [(ngModel)]="product.sizes"
+        name="sizes"
+      />
+
+      <button type="submit">Update Product</button>
+    </form>
+  }
+</div>

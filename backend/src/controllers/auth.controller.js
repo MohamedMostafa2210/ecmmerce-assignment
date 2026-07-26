@@ -38,6 +38,8 @@ export const login = asyncHandler(async (req, res) => {
   }
 
   const signatures = getSignature(user.role);
+  console.log("User Role:", user.role);
+  console.log("Access Signature:", signatures.access_token_Signature);
   const access_token = generateToken({
     payload: { _id: user._id },
     Signature: signatures.access_token_Signature,
@@ -46,7 +48,7 @@ export const login = asyncHandler(async (req, res) => {
       jwtid: nanoid(),
     },
   });
-
+  console.log(access_token);
   const refresh_token = generateToken({
     payload: { _id: user._id },
     Signature: signatures.refresh_token_Signature,

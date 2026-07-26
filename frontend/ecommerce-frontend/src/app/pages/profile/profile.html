@@ -1,1 +1,32 @@
-<p>profile works!</p>
+<div class="profile-container">
+  @if (user) {
+    <div class="profile-card">
+      <div class="avatar">{{ user.firstname?.charAt(0) }}{{ user.lastname?.charAt(0) }}</div>
+
+      <h2>{{ user.firstname }} {{ user.lastname }}</h2>
+      <p class="role">{{ user.role }}</p>
+
+      <div class="info">
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        @if (user.phoneNumber) {
+          <p><strong>Phone:</strong> {{ user.phoneNumber }}</p>
+        }
+        @if (user.age) {
+          <p><strong>Age:</strong> {{ user.age }}</p>
+        }
+        @if (user.gender) {
+          <p><strong>Gender:</strong> {{ user.gender }}</p>
+        }
+      </div>
+
+      <div class="actions">
+        <a routerLink="/orders" class="btn">View Orders</a>
+        <a routerLink="/cart" class="btn secondary">View Cart</a>
+        <a routerLink="/wishlist" class="btn secondary">View Wishlist</a>
+        <button class="logout" (click)="logout()">Logout</button>
+      </div>
+    </div>
+  } @else {
+    <p class="empty">No user data found. Please <a routerLink="/login">login</a>.</p>
+  }
+</div>

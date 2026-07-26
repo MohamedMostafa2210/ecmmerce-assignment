@@ -107,3 +107,34 @@
 .empty h2 {
   color: gray;
 }
+
+.cart-footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.cart-footer-actions .btn {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.cart-footer-actions .btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.cart-footer-actions .checkout-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.cart-footer-actions .checkout-btn:hover {
+  background-color: #218838;
+}

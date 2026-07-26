@@ -16,11 +16,18 @@ export const successResponse = ({
   res.status(statusCode).json({ message, data });
 };
 export const asyncHandler = (API) => {
-  return (req, res, next) => {
-    API(req, res, next).catch((err) => {
-      return res
-        .status(500)
-        .json({ massage: err.message, err, stack: err.stack });
-    });
+  return async (req, res, next) => {
+    try {
+      await API(req, res, next);
+    } catch (err) {
+      console.error("========== ERROR ==========");
+      console.error(err);
+      console.error("===========================");
+
+      return res.status(500).json({
+        message: err.message,
+        stack: err.stack,
+      });
+    }
   };
 };

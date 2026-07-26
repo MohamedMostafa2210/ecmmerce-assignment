@@ -28,7 +28,18 @@ export class Wishlist implements OnInit {
       },
     });
   }
+  clearWishlist() {
+    if (!confirm('Clear Wishlist ?')) return;
 
+    this.wishlistService.clearWishlist().subscribe({
+      next: () => {
+        this.loadWishlist();
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
   remove(product: any) {
     this.wishlistService.removeFromWishlist(product._id).subscribe(() => this.loadWishlist());
   }

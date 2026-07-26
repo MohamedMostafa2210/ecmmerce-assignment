@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
+import { Auth } from '../../services/auth';
 
 @Component({
   selector: 'app-navbar',
@@ -10,18 +11,21 @@ import { RouterModule, Router } from '@angular/router';
   styleUrl: './navbar.css',
 })
 export class Navbar {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private auth: Auth,
+  ) {}
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
+    return this.auth.isLogIn();
   }
 
   isAdmin(): boolean {
-    return localStorage.getItem('role') === 'admin';
+    return this.auth.isAdmin();
   }
 
   logout() {
-    localStorage.clear();
+    this.auth.logout();
     this.router.navigate(['/login']);
   }
 }

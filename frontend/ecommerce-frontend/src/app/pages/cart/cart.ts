@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './cart.html',
   styleUrl: './cart.css',
 })
@@ -47,13 +48,25 @@ export class Cart implements OnInit {
   remove(item: any) {
     this.cartService.removeFromCart(item.productId._id).subscribe(() => this.loadCart());
   }
+  clearCart() {
+    if (!confirm('Clear Cart ?')) return;
+
+    this.cartService.clearCart().subscribe({
+      next: () => {
+        this.loadCart();
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
 
   getTotal() {
     if (!this.cart?.products) return 0;
 
     return this.cart.products.reduce(
       (total: number, item: any) => total + item.productId.finalPrice * item.quantity,
-      0,  
+      0,
     );
   }
 }

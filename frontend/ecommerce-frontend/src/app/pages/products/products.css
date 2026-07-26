@@ -1,4 +1,4 @@
-.container {
+.products-page {
   width: 90%;
   margin: auto;
   padding: 40px 0;
@@ -6,11 +6,162 @@
 
 h2 {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
+  font-size: 28px;
+}
+
+.search-bar {
+  display: flex;
+  gap: 10px;
+  max-width: 600px;
+  margin: 0 auto 30px;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 12px 18px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 15px;
+  transition: border-color 0.3s;
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: #1e88e5;
+}
+
+.search-bar button {
+  padding: 12px 24px;
+  background: #1e88e5;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.search-bar button:hover {
+  background: #1565c0;
+}
+
+.main-layout {
+  display: flex;
+  gap: 30px;
+}
+
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+}
+
+.sidebar h4 {
+  margin-bottom: 14px;
+  font-size: 18px;
+  color: #1e293b;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 4px;
+}
+
+.sidebar ul li button {
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #475569;
+  transition: 0.2s;
+}
+
+.sidebar ul li button:hover {
+  background: #f1f5f9;
+  color: #1e88e5;
+}
+
+.sidebar ul li button.active {
+  background: #1e88e5;
+  color: white;
+  font-weight: 600;
+}
+
+.content-area {
+  flex: 1;
+  min-width: 0;
 }
 
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 25px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: #94a3b8;
+}
+
+.empty-state h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .main-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+
+  .sidebar ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .sidebar ul li {
+    margin-bottom: 0;
+  }
+
+  .sidebar ul li button {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .products-page {
+    width: 95%;
+  }
+
+  .search-bar {
+    flex-direction: column;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
 }
