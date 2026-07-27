@@ -1,83 +1,70 @@
 <div class="checkout-container">
   <div class="checkout-header">
-    <h2>💳 Checkout & Order Summary</h2>
-    <a routerLink="/cart" class="back-link">← Back to Cart</a>
+    <h2>Checkout</h2>
+    <a routerLink="/cart">← Back To Cart</a>
   </div>
 
   @if (loading) {
-    <p class="loading-text">Loading cart details...</p>
-  } @else if (!cart?.products?.length) {
-    <div class="empty-cart-msg">
-      <h3>Your cart is empty</h3>
-      <p>Add items to your cart before proceeding to checkout.</p>
-      <a routerLink="/products" class="btn btn-primary">Browse Products</a>
-    </div>
+    <p>Loading...</p>
   } @else {
     <div class="checkout-grid">
-      <!-- Left Column: Delivery & Payment Details Form -->
       <div class="form-card">
-        <h3>1. Shipping & Payment Details</h3>
+        <h3>Shipping Information</h3>
 
         <div class="form-group">
-          <label for="address">Shipping Address / Address ID *</label>
-          <input
-            id="address"
-            type="text"
-            placeholder="e.g. 123 Main Street, Cairo, Egypt"
-            [(ngModel)]="addressId"
-          />
-        </div>
+          <label>Select Address</label>
 
-        <div class="form-group">
-          <label for="paymentMethod">Payment Method *</label>
-          <select id="paymentMethod" [(ngModel)]="paymentMethod">
-            <option value="cash">Cash on Delivery</option>
-            <option value="card">Credit / Debit Card</option>
+          <select [(ngModel)]="addressId">
+            @for (address of addresses; track address._id) {
+              <option [value]="address._id">
+                {{ address.city }} - {{ address.street }} - Building {{ address.building }}
+              </option>
+            }
           </select>
         </div>
 
         <div class="form-group">
-          <label for="coupon">Coupon / Promo Code (Optional)</label>
-          <input
-            id="coupon"
-            type="text"
-            placeholder="Enter coupon code"
-            [(ngModel)]="coupon"
-          />
+          <label>Payment Method</label>
+
+          <select [(ngModel)]="paymentMethod">
+            <option value="Cash">Cash</option>
+            <option value="Card">Card</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Coupon</label>
+
+          <input type="text" [(ngModel)]="coupon" placeholder="Coupon Code" />
         </div>
       </div>
 
-      <!-- Right Column: Order Summary & Place Order Button -->
       <div class="summary-card">
-        <h3>2. Order Summary</h3>
+        <h3>Order Summary</h3>
 
-        <div class="items-list">
-          @for (item of cart.products; track item.productId._id) {
-            <div class="summary-item">
-              <div class="item-name">
-                <span>{{ item.productId.title }}</span>
-                <small>Qty: {{ item.quantity }}</small>
-              </div>
-              <div class="item-price">
-                {{ item.productId.finalPrice * item.quantity }} EGP
-              </div>
-            </div>
-          }
+        @for (item of cart.products; track item.productId._id) {
+          <div class="summary-item">
+            <span>{{ item.productId.title }}</span>
+
+            <span>
+              {{ item.quantity }}
+              ×
+              {{ item.productId.finalPrice }}
+              EGP
+            </span>
+          </div>
+        }
+
+        <hr />
+
+        <div class="total">
+          Total
+
+          <strong>{{ getTotal() }} EGP</strong>
         </div>
 
-        <div class="summary-divider"></div>
-
-        <div class="total-row">
-          <span>Total Amount:</span>
-          <span class="total-price">{{ getTotal() }} EGP</span>
-        </div>
-
-        <button
-          class="btn-place-order"
-          [disabled]="submitting"
-          (click)="placeOrder()"
-        >
-          {{ submitting ? 'Placing Order...' : 'Confirm & Place Order' }}
+        <button class="btn-order" (click)="placeOrder()" [disabled]="submitting">
+          {{ submitting ? 'Placing...' : 'Place Order' }}
         </button>
       </div>
     </div>

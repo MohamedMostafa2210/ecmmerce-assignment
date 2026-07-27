@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ProductService } from '../../services/product';
 import { DashboardService } from '../../services/dashboard';
+import { ToastService } from '../../services/toast';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -19,6 +20,7 @@ export class AdminDashboard implements OnInit {
   constructor(
     private productService: ProductService,
     private dashboardService: DashboardService,
+    private toast: ToastService,
     private router: Router,
   ) {}
 
@@ -61,7 +63,7 @@ export class AdminDashboard implements OnInit {
 
     this.productService.deleteProduct(id).subscribe({
       next: () => {
-        alert('Deleted Successfully');
+        this.toast.showSuccess('Deleted Successfully');
         this.loadProducts();
       },
       error: (err) => console.log(err),

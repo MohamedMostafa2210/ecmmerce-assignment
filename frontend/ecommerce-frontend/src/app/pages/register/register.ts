@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { Auth } from '../../services/auth';
+import { ToastService } from '../../services/toast';
 
 @Component({
   selector: 'app-register',
@@ -16,6 +17,7 @@ export class Register {
     lastname: '',
     email: '',
     password: '',
+    confirmPassword: '',
     age: 0,
     gender: 'Male',
     phoneNumber: '',
@@ -23,18 +25,19 @@ export class Register {
 
   constructor(
     private auth: Auth,
+    private toast: ToastService,
     private router: Router,
   ) {}
 
   signup() {
     this.auth.signup(this.signupData).subscribe({
       next: (res: any) => {
-        alert('Account Created Successfully');
+        this.toast.showSuccess('Account Created Successfully');
         this.router.navigate(['/login']);
       },
       error: (err) => {
         console.log(err);
-        alert(err.error?.massage || 'Signup failed');
+        this.toast.showError(err.error?.massage || 'Signup failed');
       },
     });
   }

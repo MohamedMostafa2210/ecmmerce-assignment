@@ -13,6 +13,7 @@ import { connectDB } from "./src/config/database.js";
 import { config } from "dotenv";
 import path from "path";
 import cors from "cors";
+import addressRouter from "./src/routes/address.routes.js";
 config({
   path: path.resolve(".env"),
 });
@@ -29,6 +30,7 @@ app.use(express.json());
 connectDB();
 app.use("/auth", userRouter);
 app.use("/product", productRouter);
+app.use("/address", addressRouter);
 app.use("/category", categoryRouter);
 app.use("/brand", brandRouter);
 app.use("/Sub-Category", subCategoryRouter);

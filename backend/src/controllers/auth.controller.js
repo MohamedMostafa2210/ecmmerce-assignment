@@ -67,7 +67,7 @@ export const login = asyncHandler(async (req, res) => {
 });
 
 export const signup = asyncHandler(async (req, res) => {
-  const { firstname, lastname, email, password } = req.body;
+  const { firstname, lastname, email, password, confirmPassword } = req.body;
   const isExist = await DBservice.findOne({
     model: userModel,
     filter: { email },

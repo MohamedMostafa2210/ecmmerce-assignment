@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+
 import { CartService } from '../../services/cart';
 import { OrderService } from '../../services/order';
+import { AddressService } from '../../services/address';
+import { ToastService } from '../../services/toast';
 
 @Component({
   selector: 'app-checkout',
@@ -14,21 +17,29 @@ import { OrderService } from '../../services/order';
 })
 export class Checkout implements OnInit {
   cart: any = null;
+
+  addresses: any[] = [];
+
   loading = true;
   submitting = false;
 
-  addressId = 'default_address_1';
-  paymentMethod = 'cash';
+  addressId = '';
+
+  paymentMethod = 'Cash';
+
   coupon = '';
 
   constructor(
     private cartService: CartService,
     private orderService: OrderService,
+    private addressService: AddressService,
+    private toast: ToastService,
     private router: Router,
   ) {}
 
   ngOnInit(): void {
     this.loadCart();
+    this.loadAddresses();
   }
 
   loadCart(): void {
@@ -43,21 +54,40 @@ export class Checkout implements OnInit {
     });
   }
 
+  loadAddresses(): void {
+    this.addressService.getAddresses().subscribe({
+      next: (res: any) => {
+        this.addresses = res.data || [];
+
+        if (this.addresses.length) {
+          const defaultAddress = this.addresses.find((a: any) => a.isDefault) || this.addresses[0];
+
+          this.addressId = defaultAddress._id;
+        }
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
   getTotal(): number {
-    if (!this.cart?.products) return 0;
+    if (!this.cart?.products?.length) return 0;
+
     return this.cart.products.reduce(
-      (acc: number, item: any) => acc + item.productId.finalPrice * item.quantity,
+      (total: number, item: any) => total + item.productId.finalPrice * item.quantity,
       0,
     );
   }
 
   placeOrder(): void {
-    if (!this.addressId.trim()) {
-      alert('Please provide a delivery address.');
+    if (!this.addressId) {
+      this.toast.showError('Please select an address');
       return;
     }
+
     if (!this.cart?.products?.length) {
-      alert('Your cart is empty.');
+      this.toast.showError('Cart is empty');
       return;
     }
 
@@ -68,30 +98,28 @@ export class Checkout implements OnInit {
       quantity: item.quantity,
     }));
 
-    const orderPayload = {
+    const payload = {
       addressId: this.addressId,
       paymentMethod: this.paymentMethod,
-      coupon: this.coupon.trim() || undefined,
+      coupon: this.coupon || undefined,
       items,
     };
 
-    this.orderService.createOrder(orderPayload).subscribe({
+    this.orderService.createOrder(payload).subscribe({
       next: () => {
-        // Clear cart after successful order creation
         this.cartService.clearCart().subscribe({
           next: () => {
-            alert('🎉 Order Placed Successfully!');
+            this.toast.showSuccess('Order placed successfully');
             this.router.navigate(['/orders']);
           },
           error: () => {
-            alert('Order created successfully!');
             this.router.navigate(['/orders']);
           },
         });
       },
-      error: (err: any) => {
+      error: (err) => {
         this.submitting = false;
-        alert(err.error?.massage || 'Failed to place order.');
+        alert(err.error?.massage || err.error?.message);
       },
     });
   }

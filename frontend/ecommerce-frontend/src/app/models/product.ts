@@ -1,3 +1,7 @@
+import { Brand } from './brand';
+import { Category } from './category';
+import { SubCategory } from './SubCategory';
+
 export interface Product {
   _id: string;
   title: string;
@@ -11,7 +15,8 @@ export interface Product {
   sizes: string[];
   images: string[];
   averageRating: number;
-  brandId: any;
-  categoryId: any;
-  subCategoryId: any;
+
+  brandId: Brand;
+  categoryId: Category;
+  subCategoryId: SubCategory;
 }

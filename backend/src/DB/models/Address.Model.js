@@ -33,11 +33,6 @@ const addressSchema = new mongoose.Schema(
       default: "",
     },
 
-    phoneNumber: {
-      type: String,
-      required: true,
-    },
-
     isDefault: {
       type: Boolean,
       default: false,

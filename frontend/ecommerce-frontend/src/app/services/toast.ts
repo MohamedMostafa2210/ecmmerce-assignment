@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 export interface ToastMessage {
   id: number;
   text: string;
-  type: 'success' | 'error';
+  type: 'success' | 'error' | 'warning' | 'info';
 }
 
 @Injectable({
@@ -12,30 +12,40 @@ export interface ToastMessage {
 })
 export class ToastService {
   private counter = 0;
-  private toastsSubject = new BehaviorSubject<ToastMessage[]>([]);
-  toasts$ = this.toastsSubject.asObservable();
 
-  showSuccess(text: string) {
-    this.addToast(text, 'success');
+  private toastSubject = new BehaviorSubject<ToastMessage[]>([]);
+  toasts$ = this.toastSubject.asObservable();
+
+  showSuccess(message: string) {
+    this.add(message, 'success');
   }
 
-  showError(text: string) {
-    this.addToast(text, 'error');
+  showError(message: string) {
+    this.add(message, 'error');
   }
 
-  private addToast(text: string, type: 'success' | 'error') {
-    const id = ++this.counter;
-    const toast: ToastMessage = { id, text, type };
-    const current = this.toastsSubject.value;
-    this.toastsSubject.next([...current, toast]);
+  showWarning(message: string) {
+    this.add(message, 'warning');
+  }
+
+  showInfo(message: string) {
+    this.add(message, 'info');
+  } 
+  private add(text: string, type: ToastMessage['type']) {
+    const toast: ToastMessage = {
+      id: ++this.counter,
+      text,
+      type,
+    };
+
+    this.toastSubject.next([...this.toastSubject.value, toast]);
 
     setTimeout(() => {
-      this.removeToast(id);
-    }, 3500);
+      this.removeToast(toast.id);
+    }, 4000);
   }
 
   removeToast(id: number) {
-    const current = this.toastsSubject.value.filter((t) => t.id !== id);
-    this.toastsSubject.next(current);
+    this.toastSubject.next(this.toastSubject.value.filter((x) => x.id !== id));
   }
 }

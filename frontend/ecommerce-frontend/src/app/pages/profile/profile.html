@@ -4,29 +4,64 @@
       <div class="avatar">{{ user.firstname?.charAt(0) }}{{ user.lastname?.charAt(0) }}</div>
 
       <h2>{{ user.firstname }} {{ user.lastname }}</h2>
-      <p class="role">{{ user.role }}</p>
 
-      <div class="info">
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        @if (user.phoneNumber) {
-          <p><strong>Phone:</strong> {{ user.phoneNumber }}</p>
+      <p>{{ user.email }}</p>
+
+      <hr />
+
+      <h3>My Addresses</h3>
+
+      @if (addresses.length) {
+        @for (address of addresses; track address._id) {
+          <div class="address-card">
+            <b>{{ address.city }}</b>
+
+            <p>
+              {{ address.street }}, Building {{ address.building }}, Floor {{ address.floor }},
+              Apartment {{ address.apartment }}
+            </p>
+
+            <small>{{ address.phoneNumber }}</small>
+
+            <br />
+
+            <button class="btn secondary" (click)="deleteAddress(address._id)">Delete</button>
+          </div>
         }
-        @if (user.age) {
-          <p><strong>Age:</strong> {{ user.age }}</p>
-        }
-        @if (user.gender) {
-          <p><strong>Gender:</strong> {{ user.gender }}</p>
-        }
-      </div>
+      } @else {
+        <p>No Address Yet</p>
+      }
+
+      <hr />
+
+      <h3>Add Address</h3>
+
+      <input placeholder="City" [(ngModel)]="address.city" />
+
+      <input placeholder="Street" [(ngModel)]="address.street" />
+
+      <input placeholder="Building" [(ngModel)]="address.building" />
+
+      <input placeholder="Floor" [(ngModel)]="address.floor" />
+
+      <input placeholder="Apartment" [(ngModel)]="address.apartment" />
+
+
+      <br /><br />
+
+      <button class="btn" (click)="addAddress()">Add Address</button>
+
+      <hr />
 
       <div class="actions">
-        <a routerLink="/orders" class="btn">View Orders</a>
-        <a routerLink="/cart" class="btn secondary">View Cart</a>
-        <a routerLink="/wishlist" class="btn secondary">View Wishlist</a>
+        <a routerLink="/orders" class="btn"> Orders </a>
+
+        <a routerLink="/cart" class="btn secondary"> Cart </a>
+
+        <a routerLink="/wishlist" class="btn secondary"> Wishlist </a>
+
         <button class="logout" (click)="logout()">Logout</button>
       </div>
     </div>
-  } @else {
-    <p class="empty">No user data found. Please <a routerLink="/login">login</a>.</p>
   }
 </div>

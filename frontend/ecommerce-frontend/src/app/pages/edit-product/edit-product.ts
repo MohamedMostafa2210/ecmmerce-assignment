@@ -6,6 +6,7 @@ import { ProductService } from '../../services/product';
 import { CategoryService } from '../../services/category';
 import { SubCategoryService } from '../../services/subcategory';
 import { BrandService } from '../../services/brand';
+import { ToastService } from '../../services/toast';
 
 @Component({
   selector: 'app-edit-product',
@@ -41,6 +42,7 @@ export class EditProduct implements OnInit {
     private subCategoryService: SubCategoryService,
     private brandService: BrandService,
     private route: ActivatedRoute,
+    private toast: ToastService,
     private router: Router,
   ) {}
 
@@ -71,7 +73,7 @@ export class EditProduct implements OnInit {
       },
       error: () => {
         this.loading = false;
-        alert('Failed to load product');
+        this.toast.showError('Failed to load product');
       },
     });
   }
@@ -94,13 +96,13 @@ export class EditProduct implements OnInit {
 
     this.brandService.createBrand({ name: name.trim() }).subscribe({
       next: (res: any) => {
-        alert('Brand created successfully!');
+        this.toast.showSuccess('Brand created successfully!');
         this.brandService.getBrands().subscribe((bRes: any) => {
           this.brands = bRes.data || [];
           if (res.data?._id) this.product.brandId = res.data._id;
         });
       },
-      error: (err: any) => alert(err.error?.massage || 'Failed to create brand'),
+      error: (err: any) => this.toast.showError(err.error?.massage || 'Failed to create brand'),
     });
   }
 
@@ -110,13 +112,13 @@ export class EditProduct implements OnInit {
 
     this.categoryService.createCategory({ name: name.trim() }).subscribe({
       next: (res: any) => {
-        alert('Category created successfully!');
+        this.toast.showSuccess('Category created successfully!');
         this.categoryService.getCategories().subscribe((cRes: any) => {
           this.categories = cRes.data || [];
           if (res.data?._id) this.product.categoryId = res.data._id;
         });
       },
-      error: (err: any) => alert(err.error?.massage || 'Failed to create category'),
+      error: (err: any) => this.toast.showError(err.error?.massage || 'Failed to create category'),
     });
   }
 
@@ -131,13 +133,14 @@ export class EditProduct implements OnInit {
       })
       .subscribe({
         next: (res: any) => {
-          alert('SubCategory created successfully!');
+          this.toast.showError('SubCategory created successfully!');
           this.subCategoryService.getSubCategories().subscribe((scRes: any) => {
             this.subCategories = scRes.data || [];
             if (res.data?._id) this.product.subCategoryId = res.data._id;
           });
         },
-        error: (err: any) => alert(err.error?.massage || 'Failed to create subcategory'),
+        error: (err: any) =>
+          this.toast.showError(err.error?.massage || 'Failed to create subcategory'),
       });
   }
 
@@ -154,19 +157,17 @@ export class EditProduct implements OnInit {
       colors: this.product.colors
         ? this.product.colors.split(',').map((c: string) => c.trim())
         : [],
-      sizes: this.product.sizes
-        ? this.product.sizes.split(',').map((s: string) => s.trim())
-        : [],
+      sizes: this.product.sizes ? this.product.sizes.split(',').map((s: string) => s.trim()) : [],
     };
 
     this.productService.updateProduct(this.productId, payload).subscribe({
       next: () => {
-        alert('Product Updated Successfully');
+        this.toast.showSuccess('Product Updated Successfully');
         this.router.navigate(['/admin-dashboard']);
       },
       error: (err) => {
         console.log(err);
-        alert(err.error?.massage || 'Failed to update product');
+        this.toast.showError(err.error?.massage || 'Failed to update product');
       },
     });
   }

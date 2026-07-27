@@ -7,6 +7,7 @@ import { CartService } from '../../services/cart';
 import { WishlistService } from '../../services/wishlist';
 import { ReviewService } from '../../services/review';
 import { Auth } from '../../services/auth';
+import { ToastService } from '../../services/toast';
 
 @Component({
   selector: 'app-product-details',
@@ -30,6 +31,7 @@ export class ProductDetails implements OnInit {
     private productService: ProductService,
     private cartService: CartService,
     private wishlistService: WishlistService,
+    private toast: ToastService,
     private reviewService: ReviewService,
     private auth: Auth,
   ) {}
@@ -67,11 +69,11 @@ export class ProductDetails implements OnInit {
 
   submitReview(): void {
     if (!this.isLoggedIn()) {
-      alert('Please login to leave a review.');
+      this.toast.showError('Please login to leave a review.');
       return;
     }
     if (!this.newComment.trim()) {
-      alert('Please write a comment before submitting.');
+      this.toast.showError('Please write a comment before submitting.');
       return;
     }
 
@@ -80,11 +82,12 @@ export class ProductDetails implements OnInit {
       .addReview({
         productId: this.product._id,
         comment: this.newComment.trim(),
-        rate: Number(this.newRate),
+        rating: Number(this.newRate),
       })
       .subscribe({
-        next: () => {
-          alert('Review added successfully!');
+        next: (res: any) => {
+          this.toast.showSuccess('review Added Successfully');
+
           this.newComment = '';
           this.newRate = 5;
           this.submittingReview = false;
@@ -92,7 +95,7 @@ export class ProductDetails implements OnInit {
         },
         error: (err: any) => {
           this.submittingReview = false;
-          alert(err.error?.massage || 'Failed to submit review');
+          this.toast.showError(err.error?.massage || 'Failed to submit review');
         },
       });
   }
@@ -101,11 +104,11 @@ export class ProductDetails implements OnInit {
     if (!confirm('Are you sure you want to delete this review?')) return;
     this.reviewService.deleteReview(reviewId).subscribe({
       next: () => {
-        alert('Review deleted.');
+        this.toast.showSuccess('Review deleted.');
         this.loadReviews();
       },
       error: (err: any) => {
-        alert(err.error?.massage || 'Failed to delete review');
+        this.toast.showError(err.error?.massage || 'Failed to delete review');
       },
     });
   }
@@ -124,25 +127,25 @@ export class ProductDetails implements OnInit {
 
   addToCart() {
     if (!this.isLoggedIn()) {
-      alert('Please login first');
+      this.toast.showError('Please login first');
       return;
     }
 
     this.cartService.addToCart(this.product._id).subscribe({
-      next: () => alert('Product Added To Cart'),
-      error: (err) => alert(err.error?.massage || 'Failed to add to cart'),
+      next: () => this.toast.showSuccess('Product Added To Cart'),
+      error: (err) => this.toast.showError(err.error?.massage || 'Failed to add to cart'),
     });
   }
 
   addToWishlist() {
     if (!this.isLoggedIn()) {
-      alert('Please login first');
+      this.toast.showError('Please login first');
       return;
     }
 
     this.wishlistService.addToWishlist(this.product._id).subscribe({
-      next: () => alert('Added to Wishlist'),
-      error: (err) => alert(err.error?.massage || 'Failed to add to wishlist'),
+      next: () => this.toast.showSuccess('Added to Wishlist'),
+      error: (err) => this.toast.showError(err.error?.massage || 'Failed to add to wishlist'),
     });
   }
 }

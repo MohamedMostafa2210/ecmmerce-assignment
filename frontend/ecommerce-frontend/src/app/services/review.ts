@@ -18,11 +18,17 @@ export class ReviewService {
     return this.http.get(`${this.api}/reviews/${productId}`);
   }
 
-  addReview(data: { productId: string; comment: string; rate: number }): Observable<any> {
+  addReview(data: { productId: string; comment: string; rating: number }): Observable<any> {
     return this.http.post(`${this.api}/add-review`, data, this.auth.getAuthHeaders());
   }
 
-  updateReview(id: string, data: { comment?: string; rate?: number }): Observable<any> {
+  updateReview(
+    id: string,
+    data: {
+      comment?: string;
+      rating?: number;
+    },
+  ): Observable<any> {
     return this.http.patch(`${this.api}/reviews/${id}`, data, this.auth.getAuthHeaders());
   }
 

@@ -8,6 +8,7 @@ import { orderModel, orderStatusEnum } from "../DB/models/Order.Model.js";
 import { orderItemModel } from "../DB/models/OrderItems.Model.js";
 import { reviewModel } from "../DB/models/Review.Model.js";
 import { userModel } from "../DB/models/User.Model.js";
+import { addressModel } from "../DB/models/Address.Model.js";
 import {
   asyncHandler,
   errResponse,

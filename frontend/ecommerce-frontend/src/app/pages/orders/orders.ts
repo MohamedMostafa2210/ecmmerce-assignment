@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 import { OrderService } from '../../services/order';
 import { DashboardService } from '../../services/dashboard';
 import { Auth } from '../../services/auth';
+import { ToastService } from '../../services/toast';
 
 @Component({
   selector: 'app-orders',
@@ -22,6 +24,7 @@ export class Orders implements OnInit {
     private orderService: OrderService,
     private dashboardService: DashboardService,
     private auth: Auth,
+    private toast: ToastService,
   ) {}
 
   ngOnInit(): void {
@@ -31,72 +34,78 @@ export class Orders implements OnInit {
 
   loadOrders(): void {
     this.loading = true;
-    if (this.isAdmin) {
-      this.dashboardService.getDashboardOrders().subscribe({
-        next: (res: any) => {
-          this.orders = res.data || [];
-          this.loading = false;
-        },
-        error: (err: any) => {
-          this.error = err.error?.massage || 'Failed to load orders';
-          this.loading = false;
-        },
-      });
-    } else {
-      this.orderService.getOrders().subscribe({
-        next: (res: any) => {
-          this.orders = res.data || [];
-          this.loading = false;
-        },
-        error: (err: any) => {
-          this.error = err.error?.massage || 'Failed to load orders';
-          this.loading = false;
-        },
-      });
-    }
+
+    const request = this.isAdmin
+      ? this.dashboardService.getDashboardOrders()
+      : this.orderService.getOrders();
+
+    request.subscribe({
+      next: (res: any) => {
+        this.orders = res.data || [];
+        this.loading = false;
+      },
+      error: (err: any) => {
+        this.loading = false;
+        this.error = err.error?.massage || err.error?.message || 'Failed to load orders';
+        this.toast.showError(this.error);
+      },
+    });
   }
 
   cancelOrder(orderId: string): void {
     if (!confirm('Are you sure you want to cancel this order?')) return;
+
     this.orderService.cancelOrder(orderId).subscribe({
       next: () => {
-        alert('Order cancelled successfully');
+        this.toast.showSuccess('Order cancelled successfully');
         this.loadOrders();
       },
       error: (err: any) => {
-        alert(err.error?.massage || 'Failed to cancel order');
+        this.toast.showError(err.error?.massage || err.error?.message || 'Failed to cancel order');
       },
     });
   }
 
   updateStatus(orderId: string, event: Event): void {
-    const newStatus = (event.target as HTMLSelectElement).value;
-    if (!newStatus) return;
+    const status = (event.target as HTMLSelectElement).value;
 
-    this.orderService.updateOrderStatus(orderId, newStatus).subscribe({
+    if (!status) return;
+
+    this.orderService.updateOrderStatus(orderId, status).subscribe({
       next: () => {
-        alert('Order status updated');
+        this.toast.showSuccess('Order status updated');
         this.loadOrders();
       },
       error: (err: any) => {
-        alert(err.error?.massage || 'Failed to update order status');
+        this.toast.showError(
+          err.error?.massage || err.error?.message || 'Failed to update order status',
+        );
       },
     });
   }
 
   getStatusBadgeClass(status: string): string {
     switch (status?.toLowerCase()) {
-      case 'placed':
       case 'pending':
+      case 'placed':
         return 'badge-pending';
+
+      case 'confirmed':
+        return 'badge-confirmed';
+
+      case 'packed':
+        return 'badge-packed';
+
       case 'shipped':
-      case 'on way':
         return 'badge-shipped';
+
       case 'delivered':
         return 'badge-delivered';
+
       case 'cancelled':
       case 'canceled':
         return 'badge-cancelled';
+
       default:
         return 'badge-secondary';
     }

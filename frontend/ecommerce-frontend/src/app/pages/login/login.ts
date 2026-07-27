@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Auth } from '../../services/auth';
 import { Router, RouterModule } from '@angular/router';
+import { ToastService } from '../../services/toast';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ export class Login {
   constructor(
     private auth: Auth,
     private router: Router,
+    private toast: ToastService,
   ) {}
 
   login() {
@@ -30,12 +32,12 @@ export class Login {
         this.auth.saveToken(res.data.access_token);
         this.auth.saveUser(res.data.user);
 
-        alert('Login successfully');
+        this.toast.showSuccess('Login successfully');
         this.router.navigate(['/products']);
       },
       error: (err) => {
         console.log(err);
-        alert(err.error?.message || err.error?.massage || 'Login failed');
+        this.toast.showError(err.error?.message || err.error?.massage || 'Login failed');
       },
     });
   }
