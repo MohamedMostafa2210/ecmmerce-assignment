@@ -29,4 +29,14 @@ export class Toast implements OnInit, OnDestroy {
   dismiss(id: number) {
     this.toastService.removeToast(id);
   }
+
+  ok(toast: ToastMessage) {
+    toast.onOk?.();
+    this.dismiss(toast.id);
+  }
+
+  cancel(toast: ToastMessage) {
+    toast.onCancel?.();
+    this.dismiss(toast.id);
+  }
 }

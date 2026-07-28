@@ -1,33 +1,17 @@
 <div class="toast-container">
   @for (toast of toasts; track toast.id) {
-    <div class="toast-item" [ngClass]="toast.type">
-      <div class="icon">
-        @switch (toast.type) {
-          @case ('success') {
-            ✔️
-          }
+    <div class="toast" [ngClass]="toast.type">
+      <span>{{ toast.text }}</span>
 
-          @case ('error') {
-            ❌
-          }
+      @if (toast.type === 'confirm') {
+        <div class="toast-actions">
+          <button class="btn-ok" (click)="ok(toast)">OK</button>
 
-          @case ('warning') {
-            ⚠️
-          }
-
-          @case ('info') {
-            ℹ️
-          }
-        }
-      </div>
-
-      <div class="message">
-        {{ toast.text }}
-      </div>
-
-      <button (click)="dismiss(toast.id)">✖</button>
-
-      <div class="progress"></div>
+          <button class="btn-cancel" (click)="cancel(toast)">Cancel</button>
+        </div>
+      } @else {
+        <button class="close" (click)="dismiss(toast.id)">✕</button>
+      }
     </div>
   }
 </div>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WishlistService } from '../../services/wishlist';
+import { ToastService } from '../../services/toast';
+import { DialogService } from '../../services/dialog';
 
 @Component({
   selector: 'app-wishlist',
@@ -12,7 +14,11 @@ import { WishlistService } from '../../services/wishlist';
 export class Wishlist implements OnInit {
   wishlist: any = null;
 
-  constructor(private wishlistService: WishlistService) {}
+  constructor(
+    private wishlistService: WishlistService,
+    private toast: ToastService,
+    private dialog: DialogService,
+  ) {}
 
   ngOnInit(): void {
     this.loadWishlist();
@@ -28,19 +34,39 @@ export class Wishlist implements OnInit {
       },
     });
   }
-  clearWishlist() {
-    if (!confirm('Clear Wishlist ?')) return;
+
+  async clearWishlist() {
+    const result = await this.dialog.confirm('Clear Wishlist?', 'This action cannot be undone.');
+
+    if (!result.isConfirmed) return;
 
     this.wishlistService.clearWishlist().subscribe({
       next: () => {
+        this.dialog.success('Wishlist cleared successfully');
         this.loadWishlist();
       },
-      error: (err) => {
-        console.log(err);
+      error: () => {
+        this.dialog.error('Something went wrong');
       },
     });
   }
-  remove(product: any) {
-    this.wishlistService.removeFromWishlist(product._id).subscribe(() => this.loadWishlist());
+
+  async remove(product: any) {
+    const result = await this.dialog.confirm(
+      'Remove Product?',
+      'Do you want to remove this product from your wishlist?',
+    );
+
+    if (!result.isConfirmed) return;
+
+    this.wishlistService.removeFromWishlist(product._id).subscribe({
+      next: () => {
+        this.dialog.success('Product removed successfully');
+        this.loadWishlist();
+      },
+      error: () => {
+        this.dialog.error('Failed to remove product');
+      },
+    });
   }
 }

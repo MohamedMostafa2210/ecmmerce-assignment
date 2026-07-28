@@ -4,9 +4,11 @@ import { BehaviorSubject } from 'rxjs';
 export interface ToastMessage {
   id: number;
   text: string;
-  type: 'success' | 'error' | 'warning' | 'info';
-}
+  type: 'success' | 'error' | 'warning' | 'info' | 'confirm';
 
+  onOk?: () => void;
+  onCancel?: () => void;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -27,10 +29,20 @@ export class ToastService {
   showWarning(message: string) {
     this.add(message, 'warning');
   }
+  confirm(message: string, onOk: () => void, onCancel?: () => void) {
+    const toast: ToastMessage = {
+      id: ++this.counter,
+      text: message,
+      type: 'confirm',
+      onOk,
+      onCancel,
+    };
 
+    this.toastSubject.next([...this.toastSubject.value, toast]);
+  }
   showInfo(message: string) {
     this.add(message, 'info');
-  } 
+  }
   private add(text: string, type: ToastMessage['type']) {
     const toast: ToastMessage = {
       id: ++this.counter,
